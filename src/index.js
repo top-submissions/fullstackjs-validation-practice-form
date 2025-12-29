@@ -33,3 +33,12 @@ const validationRules = {
       'Password must be at least 8 characters with uppercase, lowercase, and number',
   },
 };
+
+// Form elements
+const form = document.getElementById('registrationForm');
+const emailInput = document.getElementById('email');
+const countrySelect = document.getElementById('country');
+const postalCodeInput = document.getElementById('postalCode');
+const passwordInput = document.getElementById('password');
+const passwordConfirmInput = document.getElementById('passwordConfirm');
+const successMessage = document.getElementById('successMessage');
