@@ -42,3 +42,24 @@ const postalCodeInput = document.getElementById('postalCode');
 const passwordInput = document.getElementById('password');
 const passwordConfirmInput = document.getElementById('passwordConfirm');
 const successMessage = document.getElementById('successMessage');
+
+// Validation functions
+function showError(input, message) {
+  const formGroup = input.parentElement;
+  const errorMessage = formGroup.querySelector('.error-message');
+
+  formGroup.classList.add('invalid');
+  formGroup.classList.remove('valid');
+  errorMessage.textContent = message;
+  input.setAttribute('aria-invalid', 'true');
+}
+
+function showSuccess(input) {
+  const formGroup = input.parentElement;
+  const errorMessage = formGroup.querySelector('.error-message');
+
+  formGroup.classList.add('valid');
+  formGroup.classList.remove('invalid');
+  errorMessage.textContent = '';
+  input.setAttribute('aria-invalid', 'false');
+}
