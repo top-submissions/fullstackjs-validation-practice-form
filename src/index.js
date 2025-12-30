@@ -167,3 +167,73 @@ function validatePasswordConfirm() {
   showSuccess(passwordConfirmInput);
   return true;
 }
+
+// Event listeners for live validation (blur event = when user leaves field)
+emailInput.addEventListener('blur', validateEmail);
+emailInput.addEventListener('input', () => {
+  if (emailInput.parentElement.classList.contains('invalid')) {
+    validateEmail();
+  }
+});
+
+countrySelect.addEventListener('change', () => {
+  validateCountry();
+  // Re-validate postal code when country changes
+  if (postalCodeInput.value !== '') {
+    validatePostalCode();
+  }
+});
+
+postalCodeInput.addEventListener('blur', validatePostalCode);
+postalCodeInput.addEventListener('input', () => {
+  if (postalCodeInput.parentElement.classList.contains('invalid')) {
+    validatePostalCode();
+  }
+});
+
+passwordInput.addEventListener('blur', validatePassword);
+passwordInput.addEventListener('input', () => {
+  if (passwordInput.parentElement.classList.contains('invalid')) {
+    validatePassword();
+  }
+});
+
+passwordConfirmInput.addEventListener('blur', validatePasswordConfirm);
+passwordConfirmInput.addEventListener('input', () => {
+  if (passwordConfirmInput.parentElement.classList.contains('invalid')) {
+    validatePasswordConfirm();
+  }
+});
+
+// Form submission
+form.addEventListener('submit', e => {
+  e.preventDefault();
+
+  // Validate all fields
+  const isEmailValid = validateEmail();
+  const isCountryValid = validateCountry();
+  const isPostalCodeValid = validatePostalCode();
+  const isPasswordValid = validatePassword();
+  const isPasswordConfirmValid = validatePasswordConfirm();
+
+  const isFormValid =
+    isEmailValid &&
+    isCountryValid &&
+    isPostalCodeValid &&
+    isPasswordValid &&
+    isPasswordConfirmValid;
+
+  if (isFormValid) {
+    // Hide form and show success message
+    form.style.display = 'none';
+    successMessage.classList.remove('hidden');
+  } else {
+    // Find first invalid field and focus it
+    const firstInvalidField = form.querySelector(
+      '.invalid input, .invalid select'
+    );
+    if (firstInvalidField) {
+      firstInvalidField.focus();
+    }
+  }
+});
