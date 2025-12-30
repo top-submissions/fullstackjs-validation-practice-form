@@ -63,3 +63,107 @@ function showSuccess(input) {
   errorMessage.textContent = '';
   input.setAttribute('aria-invalid', 'false');
 }
+
+function validateEmail() {
+  const value = emailInput.value.trim();
+
+  if (value === '') {
+    showError(emailInput, 'Email address is required');
+    return false;
+  }
+
+  if (!validationRules.email.pattern.test(value)) {
+    showError(emailInput, validationRules.email.message);
+    return false;
+  }
+
+  showSuccess(emailInput);
+  return true;
+}
+
+function validateCountry() {
+  const value = countrySelect.value;
+
+  if (value === '') {
+    showError(countrySelect, 'Please select a country');
+    return false;
+  }
+
+  showSuccess(countrySelect);
+  return true;
+}
+
+function validatePostalCode() {
+  const value = postalCodeInput.value.trim();
+  const country = countrySelect.value;
+
+  if (value === '') {
+    showError(postalCodeInput, 'Postal code is required');
+    return false;
+  }
+
+  if (country === '') {
+    showError(postalCodeInput, 'Please select a country first');
+    return false;
+  }
+
+  const pattern = validationRules.postalCode.patterns[country];
+  const message = validationRules.postalCode.messages[country];
+
+  if (!pattern.test(value)) {
+    showError(postalCodeInput, message);
+    return false;
+  }
+
+  showSuccess(postalCodeInput);
+  return true;
+}
+
+function validatePassword() {
+  const value = passwordInput.value;
+
+  if (value === '') {
+    showError(passwordInput, 'Password is required');
+    return false;
+  }
+
+  if (value.length < validationRules.password.minLength) {
+    showError(
+      passwordInput,
+      `Password must be at least ${validationRules.password.minLength} characters`
+    );
+    return false;
+  }
+
+  if (!validationRules.password.pattern.test(value)) {
+    showError(passwordInput, validationRules.password.message);
+    return false;
+  }
+
+  showSuccess(passwordInput);
+
+  // Re-validate password confirmation if it has a value
+  if (passwordConfirmInput.value !== '') {
+    validatePasswordConfirm();
+  }
+
+  return true;
+}
+
+function validatePasswordConfirm() {
+  const value = passwordConfirmInput.value;
+  const passwordValue = passwordInput.value;
+
+  if (value === '') {
+    showError(passwordConfirmInput, 'Please confirm your password');
+    return false;
+  }
+
+  if (value !== passwordValue) {
+    showError(passwordConfirmInput, 'Passwords do not match');
+    return false;
+  }
+
+  showSuccess(passwordConfirmInput);
+  return true;
+}
